@@ -15,8 +15,6 @@ ser = serial.Serial(
 
 delay = 1
 
-hello = 1
-
 def go(*pargs):
     print(ser.readall().decode('utf-8'))
     for arg in pargs:
@@ -29,10 +27,13 @@ def setBR(PAM,baserate,channel):
     go(b'pam ', bytes(str(PAM), encoding = 'utf-8'), b' ', bytes(str(channel), encoding = 'utf-8'), b'\n')
     go(b'baserate ', bytes(str(baserate), encoding = 'utf-8'), b' ', bytes(str(channel), encoding = 'utf-8'), b'\n')
     go(b'm\n')
+    go(b'2\n')
+    go(b'apply\n')
+    go(b'm\n')
     
 print(ser.read_until('Exit',200).decode('utf-8'))
 ser.write(b'\n')
 print(ser.readall().decode('utf-8'))
-#setBR(32,88,1)
+setBR(32,88,1)
 
 ser.close()
