@@ -18,18 +18,18 @@ delay = 1
 def go(*pargs):
     print(ser.readall().decode('utf-8'))
     for arg in pargs:
-        ser.write(arg)
+        ser.write(bytes(str(arg), encoding = 'utf-8'))
     time.sleep(delay)
 
 def setBR(PAM,baserate,channel):
-    go(b'\n')
-    go(b'3\n')
-    go(b'pam ', bytes(str(PAM), encoding = 'utf-8'), b' ', bytes(str(channel), encoding = 'utf-8'), b'\n')
-    go(b'baserate ', bytes(str(baserate), encoding = 'utf-8'), b' ', bytes(str(channel), encoding = 'utf-8'), b'\n')
-    go(b'm\n')
-    go(b'2\n')
-    go(b'apply\n')
-    go(b'm\n')
+    go('\n')
+    go('3\n')
+    go('pam ', PAM, ' ', channel, b'\n')
+    go('baserate ', baserate, ' ',channel, '\n')
+    go('m\n')
+    go('2\n')
+    go('apply\n')
+    go('m\n')
     
 print(ser.read_until('Exit',200).decode('utf-8'))
 ser.write(b'\n')
